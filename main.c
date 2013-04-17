@@ -35,7 +35,7 @@ int prog_menu(void)
         gets_s(s, input_buf_size);
         N=atoi(s);
     }
-    while(0 > N || N > 3)
+    while(0 > N || N > 3);
     return N;
 
 
