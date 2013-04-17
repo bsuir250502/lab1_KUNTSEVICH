@@ -33,7 +33,7 @@ int prog_menu(void)
     do {
         printf("Enter your choise");
         gets_s(s, input_buf_size);
-        c=atoi(s);
+        N=atoi(s);
     }
     while(0 > N || N > 3)
     return N;
