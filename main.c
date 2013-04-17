@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define input_buf_size 80
+#define input_buf_size 85
 #define SIZE( x ) (sizeof( x )/sizeof( *x ))
 
 char *gets_s(char *s, size_t buf_size)
