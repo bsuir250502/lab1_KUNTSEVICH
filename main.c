@@ -35,8 +35,8 @@ int prog_menu(void)
         gets_s(s, input_buf_size);
         c=atoi(s);
     }
-    while(0 > c || c > 3)
-    return c;
+    while(0 > N || N > 3)
+    return N;
 
 
 }
@@ -47,7 +47,7 @@ int main()
 
 
     printf("Hello world");
-
+    return 0;
 }
 
-end.
+
