@@ -4,7 +4,7 @@
 #define input_buf_size 85
 #define SIZE( x ) (sizeof( x )/sizeof( *x ))
 
-char * gets_s(char *s, size_t buf_size)
+char * my_gets(char *s, size_t buf_size)
 {
     char *result;
     result = fgets(s, buf_size, stdin);
@@ -23,7 +23,7 @@ typedef struct student {
     float pts;
 } student;
 
-int prog_menu(void)
+int my_menu(void)
 {
     char s[input_buf_size];
     int N;
@@ -34,7 +34,7 @@ int prog_menu(void)
     printf("=> 3 <= Exit");
     do {
         printf("Enter your choise");
-        gets_s(s, input_buf_size);
+        my_gets(s, input_buf_size);
         N=atoi(s);
     }
     while(0 > N || N > 3);
@@ -44,11 +44,11 @@ int prog_menu(void)
 }
 
 
-int faculty_exists(student * stud_list, int num_of_students,char *faculty)
+int facu_sort(student * st_inf, int num_of_students,char *faculty)
 {
 int i ;
     for (i = 0; i < num_of_students; i++){
-        if (!strcmp(faculty, stud_list[i].facul)){
+        if (!strcmp(faculty, st_inf[i].facul)){
             return 1;
 		}
     return 0;
@@ -56,18 +56,18 @@ int i ;
 }
 
 
-int enter_student(struct student *stud_list,int num_of_students,int max_number_of_students)
+int info_enter(struct student *st_inf,int num_of_students,int max_number_of_students)
 {
     int j;
     char input_buffer[input_buf_size];
     char *strtoul_end_ptr;
     int max_marks = 5;
     char s[input_buf_size];
-    int name_size = SIZE (stud_list[num_of_students].name);
-    int surname_size = SIZE(stud_list[num_of_students].surname);
-    int facul_size = SIZE(stud_list[num_of_students].facul);
-    int specialty_size = SIZE(stud_list[num_of_students].specialty);
-    int group_size = SIZE(stud_list[num_of_students].group);
+    int name_size = SIZE (st_inf[num_of_students].name);
+    int surname_size = SIZE(st_inf[num_of_students].surname);
+    int facul_size = SIZE(st_inf[num_of_students].facul);
+    int specialty_size = SIZE(st_inf[num_of_students].specialty);
+    int group_size = SIZE(st_inf[num_of_students].group);
      
     
     if (num_of_students > max_number_of_students) {
@@ -76,27 +76,27 @@ int enter_student(struct student *stud_list,int num_of_students,int max_number_o
     }
     
     printf("Enter the name of the student: ");
-    gets_s(stud_list[num_of_students].name,name_size);
+    my_gets(st_inf[num_of_students].name,name_size);
 
     printf("Enter the surname of the student: ");
-    gets_s(stud_list[num_of_students].surname, surname_size);
+    my_gets(st_inf[num_of_students].surname, surname_size);
 
     printf("Enter the name of the faculty:");
 
-    gets_s(stud_list[num_of_students].facul, facul_size);
+    my_gets(st_inf[num_of_students].facul, facul_size);
 
     printf("Enter the name of the specialty student: ");
-    gets_s(stud_list[num_of_students].specialty, specialty_size);
+    my_gets(st_inf[num_of_students].specialty, specialty_size);
 
     printf("Enter a group of student: ");
-    gets_s(stud_list[num_of_students].group, group_size);
+    my_gets(st_inf[num_of_students].group, group_size);
 
-    stud_list[num_of_students].total_marks = max_marks;
+    st_inf[num_of_students].total_marks = max_marks;
     
     for (j = 0; j < max_marks; j++) {
         printf("Enter mark number %d:\n", j+1);
-        gets_s(input_buffer, input_buf_size);
-        stud_list[num_of_students].marks[j] = strtoul(input_buffer, &strtoul_end_ptr, 10);
+        my_gets(input_buffer, input_buf_size);
+        st_inf[num_of_students].marks[j] = strtoul(input_buffer, &strtoul_end_ptr, 10);
 }
     num_of_students++;
     return num_of_students;
@@ -105,7 +105,7 @@ int enter_student(struct student *stud_list,int num_of_students,int max_number_o
 }
 
 
-int is_premialist(student current_student)
+int premia(student current_student)
 {
     int i;
     for (i = 0; i <5; i++) {
@@ -117,26 +117,26 @@ int is_premialist(student current_student)
 }
 
 
-void show_list(struct student *stud_list, int num_of_students)
+void watch_info(struct student *st_inf, int num_of_students)
 {
     int i, j;
 	for(i = 0; i < num_of_students; i++){
 		if(i==0){
-			printf("Faculty %s:\n", stud_list[i].facul);
+			printf("Faculty %s:\n", st_inf[i].facul);
             printf("Premialists:\n");
 		}
 		else{
-			if((strcmp(stud_list[i].facul,stud_list[i-1].facul)!=0)){
-				printf("Faculty %s:\n", stud_list[i].facul);
+			if((strcmp(st_inf[i].facul,st_inf[i-1].facul)!=0)){
+				printf("Faculty %s:\n", st_inf[i].facul);
                 printf("Premialists:\n");
 			}
 		}
         for(j = 0; j < num_of_students; j++) {
-			if((strcmp(stud_list[i].facul,stud_list[i-1].facul)==0))
+			if((strcmp(st_inf[i].facul,st_inf[i-1].facul)==0))
 				break;
-            if((strcmp(stud_list[j].facul,stud_list[i].facul)==0)){
-				if (is_premialist(stud_list[j])){
-					printf("%s\n", stud_list[j].surname);
+            if((strcmp(st_inf[j].facul,st_inf[i].facul)==0)){
+				if (premia(st_inf[j])){
+					printf("%s\n", st_inf[j].surname);
 				}
 			}
 		}
@@ -154,17 +154,17 @@ int sort_f(const void *a, const void *b)
 int main()
 {
 int num_of_students=0;
-    struct student stud_list[150];
+    struct student st_inf[150];
     char choise;
     while (1) {
-	choise = prog_menu();
+	choise = my_menu();
 	switch (choise) {
 	case 1:	    
-            num_of_students = enter_student(stud_list,num_of_students,(sizeof(stud_list)/sizeof(stud_list[0])));
+            num_of_students = info_enter(st_inf,num_of_students,(sizeof(st_inf)/sizeof(st_inf[0])));
             break;
 	case 2:	    
-            qsort(stud_list, num_of_students, sizeof(struct student), sort_f);
-            show_list(stud_list, num_of_students);
+            qsort(st_inf, num_of_students, sizeof(struct student), sort_f);
+            watch_info(st_inf, num_of_students);
             break;
 	case 3:
 	    exit(0);
