@@ -4,7 +4,7 @@ CFLAGS = -Wall -std=c99
 all: main
 	./main 
 
-bin: $(OBJ)
+main: $(OBJ)
 	gcc $(CFLAGS) $(OBJ) -o main
 
 %.o : %.c
