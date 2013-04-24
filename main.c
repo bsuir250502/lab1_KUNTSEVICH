@@ -1,23 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "mylib.h"
 #define input_buf_size 85
 #define SIZE( x ) (sizeof( x )/sizeof( *x ))
 
-char * my_gets(char *s, size_t buf_size)
-{
-    char *result;
-    result = fgets(s, buf_size, stdin);
-    result[strlen(s) - 1 ] = '\0';
-    return result;
-}
 
 typedef struct student {
     char name[100];
     char surname[100];
     char facul[100];
     char specialty[100];
-    int group[50];
+    char group[50];
     int marks[50];
     int total_marks;
     float pts;
@@ -29,12 +23,13 @@ int my_menu(void)
     int N;
     
 
-    printf("=> 1 <= Enter student data");
-    printf("=> 2 <= Look primed student");
-    printf("=> 3 <= Exit");
+    printf("\n=> 1 <= Enter student data");
+    printf("\n=> 2 <= Look primed student");
+    printf("\n=> 3 <= Exit");
     do {
-        printf("Enter your choise");
+        printf("\nEnter your choise: ");
         my_gets(s, input_buf_size);
+	printf("\n");
         N=atoi(s);
     }
     while(0 > N || N > 3);
@@ -51,8 +46,9 @@ int i ;
         if (!strcmp(faculty, st_inf[i].facul)){
             return 1;
 		}
-    return 0;
+    
 	}
+    return 0;
 }
 
 
@@ -60,35 +56,33 @@ int info_enter(struct student *st_inf,int num_of_students,int max_number_of_stud
 {
     int j;
     char input_buffer[input_buf_size];
-    char *strtoul_end_ptr;
     int max_marks = 5;
-    char s[input_buf_size];
     int name_size = SIZE (st_inf[num_of_students].name);
     int surname_size = SIZE(st_inf[num_of_students].surname);
     int facul_size = SIZE(st_inf[num_of_students].facul);
     int specialty_size = SIZE(st_inf[num_of_students].specialty);
-    int group_size = SIZE(st_inf[num_of_students].group);
-     
+    char group_size = SIZE(st_inf[num_of_students].group);
+    int mark;
     
     if (num_of_students > max_number_of_students) {
-        printf("Max number of students (%d) reached",max_number_of_students);
+        printf("\nMax number of students (%d) reached",max_number_of_students);
         return num_of_students;
     }
     
-    printf("Enter the name of the student: ");
+    printf("\nEnter the name of the student: ");
     my_gets(st_inf[num_of_students].name,name_size);
 
-    printf("Enter the surname of the student: ");
+    printf("\nEnter the surname of the student: ");
     my_gets(st_inf[num_of_students].surname, surname_size);
 
-    printf("Enter the name of the faculty:");
+    printf("\nEnter the name of the faculty: ");
 
     my_gets(st_inf[num_of_students].facul, facul_size);
 
-    printf("Enter the name of the specialty student: ");
+    printf("\nEnter the name of the specialty student: ");
     my_gets(st_inf[num_of_students].specialty, specialty_size);
 
-    printf("Enter a group of student: ");
+    printf("\nEnter a group of student: ");
     my_gets(st_inf[num_of_students].group, group_size);
 
     st_inf[num_of_students].total_marks = max_marks;
@@ -96,7 +90,14 @@ int info_enter(struct student *st_inf,int num_of_students,int max_number_of_stud
     for (j = 0; j < max_marks; j++) {
         printf("Enter mark number %d:\n", j+1);
         my_gets(input_buffer, input_buf_size);
-        st_inf[num_of_students].marks[j] = strtoul(input_buffer, &strtoul_end_ptr, 10);
+	mark=atoi(input_buffer);
+
+	if (mark<0 || mark>5) {
+	     printf("ERROR! Please enter number 1-5 !\n");
+             j--;
+	}
+	
+        st_inf[num_of_students].marks[j] = mark;
 }
     num_of_students++;
     return num_of_students;
@@ -120,15 +121,14 @@ int premia(student current_student)
 void watch_info(struct student *st_inf, int num_of_students)
 {
     int i, j;
+        printf("Premialist :\n");
 	for(i = 0; i < num_of_students; i++){
 		if(i==0){
 			printf("Faculty %s:\n", st_inf[i].facul);
-            printf("Premialists:\n");
 		}
 		else{
 			if((strcmp(st_inf[i].facul,st_inf[i-1].facul)!=0)){
 				printf("Faculty %s:\n", st_inf[i].facul);
-                printf("Premialists:\n");
 			}
 		}
         for(j = 0; j < num_of_students; j++) {
@@ -136,7 +136,7 @@ void watch_info(struct student *st_inf, int num_of_students)
 				break;
             if((strcmp(st_inf[j].facul,st_inf[i].facul)==0)){
 				if (premia(st_inf[j])){
-					printf("%s\n", st_inf[j].surname);
+					printf("%s %s\n", st_inf[j].surname, st_inf[j].name);
 				}
 			}
 		}
