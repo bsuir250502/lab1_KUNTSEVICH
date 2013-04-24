@@ -23,9 +23,9 @@ int my_menu(void)
     int N;
     
 
-    printf("\n=> 1 <= Enter student data");
-    printf("\n=> 2 <= Look primed student");
-    printf("\n=> 3 <= Exit");
+    printf("\n=> 1 <= Enter student data ");
+    printf("\n=> 2 <= Look primed student ");
+    printf("\n=> 3 <= Exit ");
     do {
         printf("\nEnter your choise: ");
         my_gets(s, input_buf_size);
