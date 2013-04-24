@@ -11,5 +11,5 @@ bin: $(OBJ)
 	gcc $(CFLAGS) -c $<
 
 clean:
-	rm main 
+	rm -f main $(OBJ)
 
